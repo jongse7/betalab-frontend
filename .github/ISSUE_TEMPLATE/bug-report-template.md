@@ -1,3 +1,12 @@
+---
+name: "\U0001F41B Bug Report Template"
+about: 버그 리포트 이슈 템플릿
+title: ''
+labels: ''
+assignees: ''
+
+---
+
 ## 에러 설명
 <!-- 무슨 에러인지 설명해주세요! -->
 
