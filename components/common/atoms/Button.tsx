@@ -32,7 +32,9 @@ export default function Button({
       <button
         onClick={onClick}
         className={cn(
-          `${THEME_COLOR_CLASSNAME['Text btn']} ${TEXT_BUTTON_SIZE_CLASSNAME[sizeForTextBtn]} leading-6`,
+          THEME_COLOR_CLASSNAME['Text btn'],
+          TEXT_BUTTON_SIZE_CLASSNAME[sizeForTextBtn],
+          'leading-6 rounded-[1px]',
           className,
         )}
       >
