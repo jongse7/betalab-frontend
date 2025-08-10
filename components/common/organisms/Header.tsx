@@ -4,30 +4,21 @@ import Searchbar from '@/components/common/molecules/Searchbar';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import BetalabTextLogo from '../atoms/BetalabTextLogo';
-import { LoaderCircle } from 'lucide-react';
 
 interface HeaderProps {
   isLogin?: boolean;
   isSearchbar?: boolean;
   className?: string;
-  isAuthLoading?: boolean;
 }
 
-export default function Header({
-  isLogin = false,
-  isSearchbar = false,
-  className,
-  isAuthLoading = false,
-}: HeaderProps) {
+export default function Header({ isLogin = false, isSearchbar = false, className }: HeaderProps) {
   return (
     <nav className={cn('w-full flex flex-row items-center px-16 py-4 justify-between', className)}>
       <div className="flex h-11 flex-row items-center gap-4">
         <BetalabTextLogo />
         {isSearchbar && <Searchbar />}
       </div>
-      {isAuthLoading ? (
-        <LoaderCircle className="animate-spin" />
-      ) : isLogin ? (
+      {isLogin ? (
         <HeaderIcons />
       ) : (
         <Link href="/login" passHref>
