@@ -101,6 +101,7 @@ export default function SurveyPage() {
                   onClick={() => {
                     handleTagClick(tag);
                   }}
+                  showArrowIcon={false}
                 >
                   {tag}
                 </Chip>
@@ -111,6 +112,7 @@ export default function SurveyPage() {
                 variant={enterDirectly ? 'active' : 'solid'}
                 size="lg"
                 onClick={handleEnterDirectlyToggle}
+                showArrowIcon={false}
               >
                 직접 입력
               </Chip>
