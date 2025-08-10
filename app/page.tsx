@@ -10,48 +10,48 @@ import ViewAllButton from '@/components/home/atoms/ViewAllButton';
 import PostCard from '@/components/category/molecules/PostCard';
 import PostCardMini from '@/components/category/molecules/PostCardMini';
 import { useUsersPostsListQuery } from '@/hooks/posts/query/useUsersPostsListQuery';
-
-const mockPostData = {
-  id: '1',
-  title: '샘플 테스트 제목',
-  serviceSummary: '샘플 테스트 서비스 요약 설명입니다.',
-  thumbnailUrl: '',
-  mainCategories: [{ code: 'APP', name: '앱' }],
-  platformCategories: [{ code: 'IOS', name: 'iOS' }],
-  schedule: {
-    startDate: '2024-01-01',
-    endDate: '2024-12-31',
-    recruitmentDeadline: '2024-12-31',
-    durationTime: '30분',
-  },
-  reward: {
-    rewardType: 'CASH',
-    rewardDescription: 'CASH' as const,
-  },
-};
+import { useState } from 'react';
 
 export default function HomePage() {
   const { isLoggedIn, isLoading: isAuthLoading } = useAuth();
+
+  const [recommendPage, setRecommendPage] = useState(0);
+  const [deadlinePage, setDeadlinePage] = useState(0);
+  const [popularPage, setPopularPage] = useState(0);
+
   const {
     data: recommendPosts,
     isLoading: recommendPostsLoading,
     error: recommendPostsError,
-  } = useUsersPostsListQuery({ sortBy: 'latest', page: 0, size: 4 });
+  } = useUsersPostsListQuery({ sortBy: 'latest', page: recommendPage, size: 4 });
   const {
     data: deadlinePosts,
     isLoading: deadlinePostsLoading,
     error: deadlinePostsError,
-  } = useUsersPostsListQuery({ sortBy: 'deadline', page: 0, size: 4 });
+  } = useUsersPostsListQuery({ sortBy: 'deadline', page: deadlinePage, size: 4 });
   const {
     data: popularPosts,
     isLoading: popularPostsLoading,
     error: popularPostsError,
-  } = useUsersPostsListQuery({ sortBy: 'popular', page: 0, size: 4 });
+  } = useUsersPostsListQuery({ sortBy: 'popular', page: popularPage, size: 4 });
 
   const isLoading =
     isAuthLoading || recommendPostsLoading || deadlinePostsLoading || popularPostsLoading;
 
   const isError = recommendPostsError || deadlinePostsError || popularPostsError;
+
+  // 페이지 변경 핸들러들
+  const handleRecommendPageChange = (page: number) => {
+    setRecommendPage(page);
+  };
+
+  const handleDeadlinePageChange = (page: number) => {
+    setDeadlinePage(page);
+  };
+
+  const handlePopularPageChange = (page: number) => {
+    setPopularPage(page);
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -68,7 +68,11 @@ export default function HomePage() {
       <main className="px-14 flex flex-col gap-10 mb-30">
         <HomeSection>
           <SectionTitle className="w-full text-left">오늘의 추천 테스트</SectionTitle>
-          <CardScroll>
+          <CardScroll
+            currentPage={recommendPage}
+            totalPages={recommendPosts?.totalPages || 1}
+            onPageChange={handleRecommendPageChange}
+          >
             {recommendPosts?.content.length === 0 && (
               <div className="h-[146px] flex justify-center items-center">
                 <p className="text-body-01 text-Gray-300">오늘의 추천 테스트가 없어요.</p>
@@ -84,14 +88,18 @@ export default function HomePage() {
         </HomeSection>
         <HomeSection>
           <SectionTitle className="w-full text-left">곧 마감되는 테스트에요</SectionTitle>
-          <CardScroll>
+          <CardScroll
+            currentPage={deadlinePage}
+            totalPages={deadlinePosts?.totalPages || 1}
+            onPageChange={handleDeadlinePageChange}
+          >
             {deadlinePosts?.content.length === 0 && (
               <div className="h-[146px] flex justify-center items-center">
                 <p className="text-body-01 text-Gray-300">곧 마감되는 테스트가 없어요.</p>
               </div>
             )}
             {deadlinePosts?.content.map(post => (
-              <PostCard key={post.id} post={post} />
+              <PostCardMini key={post.id} post={post} />
             ))}
           </CardScroll>
           <ViewAllButton href="/category?category=deadline">
@@ -100,7 +108,11 @@ export default function HomePage() {
         </HomeSection>
         <HomeSection>
           <SectionTitle className="w-full text-left">인기있는 테스트에요</SectionTitle>
-          <CardScroll>
+          <CardScroll
+            currentPage={popularPage}
+            totalPages={popularPosts?.totalPages || 1}
+            onPageChange={handlePopularPageChange}
+          >
             {popularPosts?.content.length === 0 && (
               <div className="h-[146px] flex justify-center items-center">
                 <p className="text-body-01 text-Gray-300">인기 테스트가 없어요.</p>
