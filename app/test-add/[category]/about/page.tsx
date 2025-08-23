@@ -23,6 +23,10 @@ export default function TestAddAboutPage() {
     setSummary(typeof form.description === 'string' ? form.description : '');
   }, [form.description]);
 
+  useEffect(() => {
+    setSummary(typeof form.description === 'string' ? form.description : '');
+  }, [form.description]);
+
   const getInputState = (): InputProps['state'] => {
     if (summary.length === 0) return 'no value';
     if (isFocused) return 'focused';

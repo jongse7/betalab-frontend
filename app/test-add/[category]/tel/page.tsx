@@ -23,6 +23,10 @@ export default function TestAddContactPage() {
     setContact(typeof form.qnaMethod === 'string' ? form.qnaMethod : '');
   }, [form.qnaMethod]);
 
+  useEffect(() => {
+    setContact(typeof form.qnaMethod === 'string' ? form.qnaMethod : '');
+  }, [form.qnaMethod]);
+
   const getInputState = (): InputProps['state'] => {
     if (contact.length === 0) return 'no value';
     if (isFocused) return 'focused';

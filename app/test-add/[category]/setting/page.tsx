@@ -44,6 +44,47 @@ export default function TestAddSettingPage() {
   const [customRecruitValue, setCustomRecruitValue] = useState('');
   const [recruitTouched, setRecruitTouched] = useState(false);
 
+  useEffect(() => {
+    if (typeof form.feedbackMethod === 'string' && form.feedbackMethod.trim()) {
+      const tokens = form.feedbackMethod
+        .split(',')
+        .map(t => t.trim())
+        .filter(Boolean);
+      const inList = tokens.filter(t => FEEDBACK_OPTIONS.includes(t as any));
+      const extras = tokens.filter(t => !FEEDBACK_OPTIONS.includes(t as any));
+      setFeedbackTags(inList);
+      if (extras.length) {
+        setCustomFeedbackOpen(true);
+        setCustomFeedbackValue(extras.join(', '));
+      }
+    }
+
+    if (typeof form.durationTime === 'string' && form.durationTime.trim()) {
+      const tokens = form.durationTime
+        .split(',')
+        .map(t => t.trim())
+        .filter(Boolean);
+      const inList = tokens.filter(t => TIME_OPTIONS.includes(t as any));
+      const extras = tokens.filter(t => !TIME_OPTIONS.includes(t as any));
+      setTimeTags(inList);
+      if (extras.length) {
+        setCustomTimeOpen(true);
+        setCustomTimeValue(extras.join(', '));
+      }
+    }
+
+    if (typeof form.maxParticipants === 'number') {
+      setRecruitCount(form.maxParticipants);
+      setRecruitTouched(true);
+    }
+
+    const from = form.startDate ? new Date(form.startDate) : undefined;
+    const to = form.endDate ? new Date(form.endDate) : undefined;
+    if (from && to && !Number.isNaN(+from) && !Number.isNaN(+to)) {
+      setDeadlineRange({ from, to });
+    }
+  }, [form.feedbackMethod, form.durationTime, form.maxParticipants, form.startDate, form.endDate]);
+
   const [deadlineRange, setDeadlineRange] = useState<DateRange | undefined>();
 
   useEffect(() => {

@@ -23,6 +23,10 @@ export default function TestAddIntroPage() {
     setIntro(typeof form.creatorIntroduction === 'string' ? form.creatorIntroduction : '');
   }, [form.creatorIntroduction]);
 
+  useEffect(() => {
+    setIntro(typeof form.creatorIntroduction === 'string' ? form.creatorIntroduction : '');
+  }, [form.creatorIntroduction]);
+
   const getInputState = (): InputProps['state'] => {
     if (intro.length === 0) return 'no value';
     if (isFocused) return 'focused';
