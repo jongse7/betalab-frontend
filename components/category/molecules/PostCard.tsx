@@ -1,15 +1,15 @@
 import Link from 'next/link';
-import { UsersPostsListItemType } from '@/hooks/posts/dto/postList';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import BookMark from '@/components/common/svg/BookMark';
 import Tag from '@/components/common/atoms/Tag';
 import { Skeleton } from '@/components/ui/skeleton';
 import RankingArticle from '@/components/common/svg/RankingArticle';
+import { TestCardType } from '@/types/models/testCard';
 
 interface PostCardProps {
   className?: string;
-  post: UsersPostsListItemType;
+  post: TestCardType;
   ranking?: number;
 }
 
