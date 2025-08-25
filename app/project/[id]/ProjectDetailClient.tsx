@@ -137,7 +137,7 @@ export default function ProjectDetailClient({ id }: ProjectDetailClientProps) {
                 />
               ))}
               <div className="p-4 rounded-xs border-[1px] border-Gray-100">
-                <p className="text-base font-normal text-Dark-Gray">
+                <p className="text-base font-normal text-Dark-Gray whitespace-pre-line">
                   {projectData.content.storyGuide || '설명이 없습니다.'}
                 </p>
               </div>
